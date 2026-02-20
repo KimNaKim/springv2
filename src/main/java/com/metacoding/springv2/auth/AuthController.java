@@ -16,11 +16,16 @@ public class AuthController {
 
     private final AuthService authService;
 
+    @PostMapping("/join")
+    public ResponseEntity<?> join(@RequestBody AuthRequest.JoinDTO reqDto) {
+        var respDTO = authService.회원가입(reqDto);
+        return Resp.ok(respDTO);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest.LoginDTO reqDto) { // JSON 데이터 파싱
         // 토큰 기반
         String accessToken = authService.login(reqDto);
-
         return Resp.ok(accessToken);
     }
 

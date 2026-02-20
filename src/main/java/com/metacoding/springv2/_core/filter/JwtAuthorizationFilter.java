@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.metacoding.springv2._core.util.JwtProvider;
 import com.metacoding.springv2._core.util.JwtUtil;
 import com.metacoding.springv2.user.User;
 
@@ -24,22 +25,14 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         // localhost:8080/api/good
         // header -> Authorization : Bearer JWT토큰
 
-        String jwt = request.getHeader("Authorization");
+        String jwt = JwtProvider.resolveToken(request); // 토큰 추출하기
 
-        if (jwt == null) {
-            filterChain.doFilter(request, response);
-            return;
+        if (jwt != null) {
+            // id, username, roles 받기
+            Authentication authentication = JwtProvider.getAuthentication(jwt); // 인증 객체 만들기기
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
-        // eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc3MjA5Mjc5MX0.y8bOue7RpV8HZZ4I5Evd4FMmWMcnFr5iZi4NRinCZhCBfwuNcEOXjKSwKUF5yaeUui-fLdRhwGdJABr6DbjfNQ
-        jwt = jwt.replace("Bearer ", "");
-
-        // id, username, roles 받기
-        User user = JwtUtil.verify(jwt);
-
-        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request, response);
     }
 

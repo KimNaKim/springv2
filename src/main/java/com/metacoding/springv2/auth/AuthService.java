@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.metacoding.springv2._core.handler.ex.Exception401;
 import com.metacoding.springv2._core.util.JwtUtil;
+import com.metacoding.springv2.auth.AuthRequest.JoinDTO;
 import com.metacoding.springv2.auth.AuthRequest.LoginDTO;
 import com.metacoding.springv2.user.User;
 import com.metacoding.springv2.user.UserRepository;
@@ -32,6 +33,20 @@ public class AuthService {
         if (!isSamePassword)
             throw new Exception401("비밀번호가 틀렸어요");
         return JwtUtil.create(findUser);
+    }
+
+    public AuthResponse.DTO 회원가입(JoinDTO reqDto) {
+
+        // 1. password 해시하기
+        String encPassword = bCryptPasswordEncoder.encode(reqDto.getPassword());
+
+        User user = User.builder() // reqDto에서 User 뽑아내기
+                .username(reqDto.getUsername())
+                .password(encPassword)
+                .email(reqDto.getEmail()).build();
+
+        userRepository.save(user);
+        return new AuthResponse.DTO(user);
     }
 
 }

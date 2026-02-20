@@ -59,10 +59,10 @@ public class User implements UserDetails {
         Collection<GrantedAuthority> as = new ArrayList<>();
         String[] roleList = roles.split(",");
         for (String role : roleList) {
-            as.add(() -> role);
+            as.add(() -> "ROLE_" + role);
         }
 
-        return as;
+        return as; // cos일 때는 USER, ADMIN
     }
 
 }
