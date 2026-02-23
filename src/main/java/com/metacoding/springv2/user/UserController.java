@@ -18,9 +18,7 @@ public class UserController {
     @GetMapping("/api/users/{id}")
     public ResponseEntity<?> detail(@PathVariable Integer id) {
         // 서비스 계층에서 유저 정보를 조회함
-        User user = userService.findById(id);
-        // 조회된 정보를 DTO로 변환하여 응답함
-        UserResponse.DetailDTO respDTO = new UserResponse.DetailDTO(user);
+        UserResponse.DetailDTO respDTO = userService.findById(id);
         return Resp.ok(respDTO);
     }
 }

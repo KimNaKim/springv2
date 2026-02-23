@@ -7,8 +7,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.metacoding.springv2._core.filter.CorsFilter;
 import com.metacoding.springv2._core.filter.JwtAuthorizationFilter;
 import com.metacoding.springv2._core.util.RespFilter;
 
@@ -21,6 +23,19 @@ public class SecurityConfig {
                 return new BCryptPasswordEncoder();
         }
 
+        @Bean
+        public CorsConfigurationSource corsConfigurationSource() {
+                CorsConfiguration configuration = new CorsConfiguration();
+                configuration.addAllowedHeader("*");
+                configuration.addAllowedMethod("*");
+                configuration.addAllowedOriginPattern("*"); // 모든 IP 주소 허용 (프론트엔드 IP만 허용하는 것이 좋음)
+                configuration.setAllowCredentials(true); // 클라이언트에서 쿠키를 보낼 수 있게 허용
+                configuration.addExposedHeader("Authorization"); // 클라이언트에서 헤더를 볼 수 있게 허용
+                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                source.registerCorsConfiguration("/**", configuration);
+                return source;
+        }
+
         // 시큐리티 필터 등록
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -28,7 +43,7 @@ public class SecurityConfig {
                 http.headers(headers -> headers
                                 .frameOptions(frameOptions -> frameOptions.sameOrigin()));
 
-                http.addFilter(new CorsFilter());
+                http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
                 http.exceptionHandling(ex -> ex
                                 .authenticationEntryPoint(

@@ -19,4 +19,17 @@ public class UserResponse {
             this.createdAt = user.getCreatedAt();
         }
     }
+
+    @Data
+    public static class JoinDTO {
+        private Integer id;
+        private String username;
+        private String email;
+
+        public JoinDTO(User user) {
+            this.id = user.getId();
+            this.username = user.getUsername();
+            this.email = user.getEmail();
+        }
+    }
 }

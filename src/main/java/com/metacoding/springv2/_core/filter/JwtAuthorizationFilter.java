@@ -2,14 +2,11 @@ package com.metacoding.springv2._core.filter;
 
 import java.io.IOException;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.metacoding.springv2._core.util.JwtProvider;
-import com.metacoding.springv2._core.util.JwtUtil;
-import com.metacoding.springv2.user.User;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

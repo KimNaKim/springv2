@@ -1,8 +1,11 @@
-# task의 역할 - 기능을 정리하기
+﻿# 기능 정의
 
-## 추후에는 기능별로 task.md 파일을 또 쪼개게 될 것
-
-1. [x] 회원가입된 유저 정보 보기 (`UserController`)
-2. [x] 유저네임 중복 체크 (`AuthController`)
-3. [x] 회원가입 및 로그인 기능 구현
-4. [x] 게시글 목록 기능 만들기 (id, title, content) - 별도 DTO를 제작해서 응답하기
+1. [x] 회원가입한 유저 정보 보기 기능 추가 (`GET /api/users/{id}`)
+2. [x] 유저네임 중복체크 기능 추가 (`GET /username-same-check?username=...`, `AuthController`)
+3. [x] 게시글 목록 기능 만들기 (id, title, content)로 DTO 만들어서 응답하기
+4. [x] 게시글 상세보기 기능 만들기
+5. [x] 게시글 상세보기 기능 리팩토링하기
+   - 응답에 DTO 구성을 (id, title, content, userId, username)로 만들기 (내부 클래스 필요 없어)
+6. [x] 게시글 작성 수정 삭제 기능 만들기
+7. [x] 댓글 작성 삭제 기능 만들기
+8. [x] 로그아웃 기능 만들기
