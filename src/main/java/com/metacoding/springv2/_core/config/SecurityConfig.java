@@ -28,7 +28,7 @@ public class SecurityConfig {
                 http.headers(headers -> headers
                                 .frameOptions(frameOptions -> frameOptions.sameOrigin()));
 
-                // http.addFilter(new CorsFilter());
+                http.addFilter(new CorsFilter());
 
                 http.exceptionHandling(ex -> ex
                                 .authenticationEntryPoint(

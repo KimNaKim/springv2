@@ -16,7 +16,7 @@
 ### A. 보안 (Security)
 
 - **인증 방식**: JWT (Json Web Token) 기반 인증 (`JwtAuthorizationFilter`).
-- **CORS**: `FilterConfig`를 통해 전역 필터로 설정됨 (`SecurityConfig` 내 설정은 주석 처리).
+- **CORS**: `SecurityConfig`에 `CorsFilter`를 적용하여 전역 필터로 설정됨.
 - **암호화**: `BCryptPasswordEncoder` 사용.
 - **권한 관리**:
   - `/api/**`: 인증된 사용자 접근 가능.
@@ -25,17 +25,20 @@
 
 ### B. 유저 관리 (User)
 
-- **DTO**: 회원가입(`JoinDTO`), 로그인(`LoginDTO`) 구조 정의됨.
+- **DTO**: 회원가입(`JoinDTO`), 로그인(`LoginDTO`), 상세 정보(`DetailDTO`) 구조 정의됨.
 - **API**:
   - `GET /api/users/{id}`: 유저 상세 정보 조회 (구현 완료).
-- **Service**: 트랜잭션 관리 및 유저 조회 로직 구현.
+  - `POST /api/check-username`: 유저네임 중복 체크 (구현 완료).
+- **Service**: 트랜잭션 관리 및 유저 조회/중복체크 로직 구현.
 
-### C. 공통 모듈
+### C. 게시글 관리 (Board)
+
+- **DTO**: 목록 조회(`ListDTO`) 구조 정의됨.
+- **API**:
+  - `GET /api/boards`: 모든 게시글 목록 조회 (구현 완료).
+- **Service**: 트랜잭션 관리 및 게시글 조회 로직 구현.
+
+### D. 공통 모듈
 
 - **응답 처리**: `Resp` 객체와 `RespFilter`를 통해 일관된 JSON 응답 포맷 유지.
-
-## 4. 구현 기능 체크리스트 (Agent1)
-
-- [x] 회원가입된 유저 정보 보기 (`UserController`)
-- [x] 유저네임 중복 체크 (`AuthController`)
-- [x] 회원가입 및 로그인 기능 구현
+- **예외 처리**: `GlobalExceptionHandler`를 통해 Exception400, 401, 403, 404, 500 구분 처리.

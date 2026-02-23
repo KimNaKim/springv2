@@ -1,6 +1,7 @@
 package com.metacoding.springv2.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,10 +14,13 @@ public class UserController {
 
     private final UserService userService;
 
-    // 유저 정보 보기
+    // 특정 유저의 상세 정보를 조회하는 API
     @GetMapping("/api/users/{id}")
-    public Resp<?> detail(@PathVariable Integer id) {
+    public ResponseEntity<?> detail(@PathVariable Integer id) {
+        // 서비스 계층에서 유저 정보를 조회함
         User user = userService.findById(id);
-        return new Resp<>(200, "성공", user);
+        // 조회된 정보를 DTO로 변환하여 응답함
+        UserResponse.DetailDTO respDTO = new UserResponse.DetailDTO(user);
+        return Resp.ok(respDTO);
     }
 }
